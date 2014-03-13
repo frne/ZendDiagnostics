@@ -17,12 +17,16 @@ It currently ships with the following Diagnostic Checks:
  * [DiskFree](#diskfree) - check there's enough free space on given path,
  * [ExtensionLoaded](#extensionloaded) - make sure extension is loaded,
  * [HttpService](#httpservice) - check if given http host is responding,
+ * [IniFile](#inifile) - check if given INI file is available and valid,
+ * [JsonFile](#jsonfile) - check if given JSON file is available and valid,
  * [Memcache](#memcache) - check if memcache extension is loaded and given server is reachable,
  * [PhpVersion](#phpversion) - make sure that PHP version matches constraint,
  * [PhpFlag](#phpflag) - make sure that given PHP flag (feature) is turned on or off.
  * [ProcessRunning](#processrunning) - check if a process with given name or ID is currently running,
  * [SecurityAdvisory](#securityadvisory) - check installed composer dependencies against SensioLabs SA database,
  * [StreamWrapperExists](#streamwrapperexists) - make sure given stream wrapper is available.
+ * [XmlFile](#xmlfile) - check if given XML file is available and valid,
+ * [YamlFile](#yamlfile) - check if given YAML file is available and valid
 
 ## Using diagnostics with Zend Framework 2
 
@@ -409,6 +413,30 @@ $checkPageContent = new HttpService(
 );
 ````
 
+### IniFile
+
+Read an INI-file from the given path and try to parse it.
+
+````php
+<?php
+use ZendDiagnostics\Check\IniFile;
+
+$checkIniFile = new IniFile('/my/path/to/file.ini');
+$checkIniFile = new IniFile(['file1.ini', 'file2.ini', '...']);
+````
+
+### JsonFile
+
+Read a JSON-file from the given path and try to decode it.
+
+````php
+<?php
+use ZendDiagnostics\Check\JsonFile;
+
+$checkJsonFile = new JsonFile('/my/path/to/file.json');
+$checkJsonFile = new JsonFile(['file1.json', 'file2.json', '...']);
+````
+
 ### Memcache
 
 Attempt to connect to given Memcache server.
@@ -420,7 +448,6 @@ use ZendDiagnostics\Check\Memcache;
 $checkLocal  = new Memcache('127.0.0.1'); // default port
 $checkBackup = new Memcache('10.0.30.40', 11212);
 ````
-
 
 ### PhpVersion
 
@@ -489,7 +516,6 @@ $security = new SecurityAdvisory();
 $security = new SecurityAdvisory('/var/www/project/composer.lock');
 ````
 
-
 ### StreamWrapperExists
 
 Check if a given stream wrapper (or an array of wrappers) is available. For example:
@@ -504,4 +530,28 @@ $checkCompression = new StreamWrapperExists(array(
     'bzip2',
     'zip'
 ));
+````
+
+### XmlFile
+
+Read an XML-file from the given path, try to parse it and validate it agaist its DTD schema if possible.
+
+````php
+<?php
+use ZendDiagnostics\Check\XmlFile;
+
+$checkXmlFile = new XmlFile('/my/path/to/file.xml');
+$checkXmlFile = new XmlFile(['file1.xml', 'file2.xml', '...']);
+````
+
+### YamlFile
+
+Read a YAML-file from the given path and try to parse it.
+
+````php
+<?php
+use ZendDiagnostics\Check\YamlFile;
+
+$checkYamlFile = new YamlFile('/my/path/to/file.yml');
+$checkYamlFile = new YamlFile(['file1.yml', 'file2.yml', '...']);
 ````
